@@ -1,0 +1,42 @@
+*, *::after, *::before{
+    margin:0;
+    padding: 0;
+   box-sizing: inherit;
+
+}
+html, body{
+    height: 100%;
+    margin:0;
+}
+html{
+    // defines 1rem
+    font-size: 100%;
+    
+
+
+}
+body{
+   display: grid;
+   // box-sizing: border-box;
+//background: $color-darkmode-black;/* Old browsers */
+   //opacity: 1;
+    
+   
+}
+.align-center{
+    text-align: center;
+}
+img{
+    max-width: 100%;
+    height: auto;
+}
+.app-loader{
+ padding-top:260px;
+}
+input, input:focus, input:focus{
+    outline: none;
+    border:none;
+}
+*:focus {
+    outline: none;
+}
