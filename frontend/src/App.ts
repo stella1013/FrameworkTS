@@ -1,51 +1,67 @@
-import { Router } from './Router';
-import { ViewHandler } from './ViewHandler';
+import { Base } from "./Base/Base";
+import { AppSetable } from "./Base/interfaces/AppSetting.interface";
 
-
-//
+/***** SET APP STATUS*/
 /**
- *
- *
- * @export
- * @class CreateUserFormModule
- *  2 Part Create Users Form.
- *  1. Form 1 Create the User
- *  2. Form 2 Add Options to the User after User is created
+ * Status Options are of type 'string'. This sets the API urls and console logging out put to show/hide.
+ * development - loads canned data
+ * staging - 
+ * production - 
+ * 
  */
-export class App {
-		private appContainer: HTMLDivElement;
-		private formContainer: HTMLDivElement;
-		private appTitle = '';
-	
-		private viewHandler = new ViewHandler();
 
+
+export class App {
+		private baseApp:Base;
+		private _appStatus = '';
+		private _eventStatus = '';
+
+		private appSettings : AppSetable = {
+			isDebug : true,
+			defaultPresenter : "editConfig",
+			defaultAction : "index",
+			presenters : [
+			
+			],
+			onErrorHandler : function(e : Object) {
+			  alert("Sorry! there has been an error please check out the console for more info!");
+			  console.log(e);
+			}
+		  };
+	
 	constructor() {	
-		this.appContainer = document.getElementById('app')! as HTMLDivElement;
+		/* if (window.location.href === 'http://localhost:8081/' ) {
+			console.log('*********************************************************');
+			console.log('*********************************************************');
+			console.log('App Status is in Mode: "' + APP_STATE.appMode + '" ...Status can be changed in src/App.ts');
+			console.log('*********************************************************');
+			console.log('*********************************************************');
+		} */
+		
+		
+		this.baseApp = new Base(this.appSettings);
+		this.baseApp.init();
 	
-		// choose container for form
-		this.formContainer = document.getElementById('main')! as HTMLDivElement;
-	
-	
-		this.init();
 	}
 
 	init(){
-		const header = <HTMLHeadingElement>this.appContainer.querySelector('h1');
-		
-		this.setAppStatus();
-		this.setApplicationTitle(header, this.appTitle);
-		this.viewHandler.loadView('START');
-		//this.router.handleRequest();
-	}
-	setAppStatus():void{
 		if(process.env.NODE_ENV){
-			//APP_STATUS.appMode = process.env.NODE_ENV;
+			this.appStatus = process.env.NODE_ENV;
 		}
 	}
-	setApplicationTitle(selector: HTMLHeadingElement, title: string) {
-		selector.textContent = title;
-	}
 	
-}
+	public get appStatus():string {
+		return this._appStatus;
+	}
+	public set appStatus(newAppStatus:string) {
+		this._appStatus = newAppStatus;
+	}
+	public get eventStatus() {
+		return this._eventStatus;
+	}
+	public set eventStatus(value) {
+		this._eventStatus = value;
+	}
 
+}
 
